@@ -1,3 +1,6 @@
 .idea
 .env
 *.jar
+
+app.key
+app.pub

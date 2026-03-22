@@ -23,8 +23,12 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<Product> getProducts() {
-        return repository.findAll();
+    public ResponseEntity<List<ProductDTO>> getProducts() {
+        var products = repository.findAll().stream()
+                .map(ProductDTO::new)
+                .toList();
+
+        return ResponseEntity.ok(products);
     }
 
     @PostMapping
@@ -47,7 +51,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ProductDTO> deleteProduct(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         Product product = repository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Produto não encontrado"));
 
